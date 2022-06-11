@@ -17,7 +17,7 @@
 #ifndef __CSL_CVER__
 #   if __STDC_VERSION__ == 199901L
 #       define __CSL_CVER__ 1999
-#   elif __STDC_VERSION__ <= 199409L
+#   elif __STDC_VERSION__ <= 199401L
 #       define __CSL_CVER__ 1989
 #   elif __STDC_VERSION__ >= 201112L
 #       define __CSL_CVER__ 2011
@@ -169,19 +169,23 @@ __CSL_ALIGNED__(16) typedef struct csl_pvector_header {
 #define csl_pvector_capacity(v) \
     (((csl_pvector_t *)((void *)v - sizeof (csl_pvector_t)))->capacity)
 
-/* remove an area of a vector */
-#define csl_pvector_remove(v, from, size)\
-    (__csl_pvector_remove ((csl_pvector_t *)((char *)(v) - sizeof (csl_pvector_t)), (from), (size)))
-
-/****************/
-/* INTERNAL USE */
-/****************/
-
 #define __CSL_ARRAYOF(hdr)\
     ((char *)hdr + sizeof (csl_pvector_t))
 
 #define __CSL_HEADEROF(v)\
     ((csl_pvector_t *)((char *)v - sizeof (csl_pvector_t)))
+
+/* remove an area of a vector */
+#define csl_pvector_remove(v, from, size) \
+    (__csl_pvector_remove ((csl_pvector_t *)((char *)(v) - sizeof (csl_pvector_t)), (from), (size)))
+
+/* clear the vector */
+#define csl_pvector_clear(v) \
+    { ((csl_pvector_t *)((char *)(v) - sizeof (csl_pvector_t)))->count = 0; }
+
+/****************/
+/* INTERNAL USE */
+/****************/
 
 __CSL_INLINE__ void *__csl_pvector_alloc (unsigned T_size) {
     __CSL_ASSERT__ (T_size > 0, "Element size is expected to be non-zero");
