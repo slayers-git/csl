@@ -27,6 +27,8 @@ cthings directory is comprised of the miscellaneous, independent from each other
 - `begin_code.h` - a header file to help enclose C code in, while saving compatibility with C++ (extern "C").
 - `c89.h` - a header file for c99 support in older C standards.
 - `die.h` - a simple die () and vdie () implementation.
+- `itoa.h` - a simple POSIX itoa implementation.
+- `hash.h` - a collection of string hash functions.
 
 ## Installing
 
