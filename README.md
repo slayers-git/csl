@@ -29,12 +29,14 @@ cthings directory is comprised of the miscellaneous, independent from each other
 - `die.h` - a simple die () and vdie () implementation.
 - `itoa.h` - a simple POSIX itoa implementation.
 - `hash.h` - a collection of string hash functions.
+- `strings.h` - a header file to add some functions from POSIX's `strings.h` header file to non-POSIX platforms (`str[n]casecmp ()`, `str[n]dup ()` functions specifically).
+- `getline.h` - a slightly modified version of POSIX's `getdelim ()` and `getline ()` functions.
 
 ## Installing
 
 All sources in csl library are headers. So installing them is simply a matter of:
 
 ```bash
-cmake .
-make install
+$ cmake .
+# make install
 ```
