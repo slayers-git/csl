@@ -1,5 +1,5 @@
-/* strings.h - fill in the gaps of lacking str[n]casecmp and strdup on
- * *certain* OSes. */
+/* strings.h - fill in the gaps of lacking str[n]casecmp and strdup on *certain* OSes */
+/* Sergey Lafin, 2022 */
 
 #ifndef __CSL_STRINGS_H__
 #define __CSL_STRINGS_H__

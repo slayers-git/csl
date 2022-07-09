@@ -8,6 +8,10 @@ set (HEADERS
     ./cthings/attribute.h
     ./cthings/begin_code.h
     ./cthings/die.h
-    ./cthings/c89.h)
+    ./cthings/c89.h
+    ./cthings/itoa.h
+    ./cthings/hash.h
+    ./cthings/strings.h
+    ./cthings/getline.h)
 
 install (FILES ${HEADERS} DESTINATION include/csl)

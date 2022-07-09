@@ -32,21 +32,6 @@
 #   endif
 #endif
 
-#ifndef CSL_ASSERT
-#   ifndef __CSL_NOASSERT__
-#       define CSL_ASSERT(expr, str) { if (!(expr)) {__csl_assert_failed (#expr, str, __FUNCTION__); } }
-#       include <stdio.h>
-#       include <stdlib.h>
-    
-        CSL_NORETURN CSL_INLINE void __csl_assert_failed (const char *expr, const char *message, const char *function) {
-            fprintf (stderr, "%s: assertion %s failed: %s\n", function, expr, message);
-            abort ();
-        }
-#   else
-#       define CSL_ASSERT(expr, str)
-#   endif 
-#endif
-
 #ifdef CSL_ITOA_REPLACE
 #   define itoa csl_itoa
 #endif
@@ -60,8 +45,15 @@
 #endif
 
 /* Posix-compliant itoa implementation */
+#include <stddef.h>
+#include <errno.h>
+
 CSL_INLINE char *csl_itoa (__csl_itoa_int value, char *buffer, unsigned base) {
-    CSL_ASSERT (base >= 2 && base <= 36, "csl_itoa () expects the base to be in [2, 36] range");
+    if (!(base >= 2 && base <= 36)) {
+        *buffer = '\0';
+        errno = EINVAL;
+        return NULL;
+    }
 
     if (!value) {
         buffer[0] = '0';
