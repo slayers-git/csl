@@ -29,8 +29,15 @@
 #   define getline csl_getline
 #endif
 
+#define CSL_GETLINE_EOF -256
+
 /* Unlike the POSIX variant, this getdelim function doesn't append a delim character 
  * if it was found in the stream. 
+ *
+ * Returns the amount of characters consumed, otherwise -1 or -256 (CSL_GETLINE_EOF).
+ *
+ * If an EOF was met, then, if the line is empty, the function will return CSL_GETLINE_EOF, 
+ * otherwise it will return the amount of characters consumed before the EOF was met.
  *
  * This function grows the buffer exponentially. */
 static ssize_t csl_getdelim (char **lineptr, size_t *n, int delim, FILE *stream) {
@@ -38,6 +45,8 @@ static ssize_t csl_getdelim (char **lineptr, size_t *n, int delim, FILE *stream)
         errno = EINVAL;
         return -1;
     }
+
+    errno = 0;
 
     char *p;
     if (*lineptr) {
@@ -53,7 +62,10 @@ static ssize_t csl_getdelim (char **lineptr, size_t *n, int delim, FILE *stream)
 
     int c;
     size_t consumed = 0;
-    for (; (c = getc (stream)) != EOF && c != delim; ++p, ++consumed) {
+    for (; (c = getc (stream)) != delim; ++p, ++consumed) {
+        if (c == EOF)
+            return consumed ? consumed : CSL_GETLINE_EOF;
+
         if (consumed > SSIZE_MAX) {
             errno = EOVERFLOW;
             return -1;
