@@ -46,7 +46,13 @@
         return (c1 > c2) - (c2 > c1);
     }
 
-/* to avoid redefintions */
+/* to avoid redefintions we use macros */
+
+/* we also undef the macros beforehand as some compilers tend to 
+ * define POSIX functions as macros */
+#   undef strcasecmp
+#   undef strncasecmp
+
 #   define strcasecmp  csl_strcasecmp
 #   define strncasecmp csl_strncasecmp
 #endif
@@ -79,6 +85,9 @@
     }
 
 /* to avoid redefintions */
+#   undef strdup
+#   undef strndup
+
 #   define strdup csl_strdup
 #   define strndup csl_strndup
 #endif
